@@ -33,4 +33,3 @@ def get_game_power(input: str) -> int:
 
 if __name__ == "__main__":
     main()
-=
