@@ -32,9 +32,6 @@ def main():
 
 def match_has_adjacent_symbol(match: Match) -> bool:
     match_line = inputs[match.line_no]
-    if match.number == 539:
-        pass
-
     try:
         leading_char = match_line[match.min_index]
         if leading_char in symbols:
