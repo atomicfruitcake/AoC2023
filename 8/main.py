@@ -1,7 +1,7 @@
-from dataclasses import dataclass
 from functools import cached_property
 from typing import List, Dict
 from itertools import cycle
+from math import lcm
 
 
 class MapSolver:
@@ -31,23 +31,44 @@ class MapSolver:
             }
         return out_dict
 
-    def main(self):
+    @cached_property
+    def start_elems(self):
+        return [k for k in self.map.keys() if k[-1] == "A"]
+
+    def part1(self):
         elem = "AAA"
         node = self.map[elem]
         steps = 0
         for instruction in cycle(self.instructions):
             steps += 1
-            print(instruction)
             elem = node[instruction]
             if elem == "ZZZ":
                 break
             node = self.map[elem]
-            print(node)
-        print(steps)
+        return steps
+
+    def part2_get_steps(self, start_elem: str) -> int:
+        node = self.map[start_elem]
+        steps = 0
+        for instruction in cycle(self.instructions):
+            steps += 1
+            elem = node[instruction]
+            if elem[-1] == "Z":
+                break
+            node = self.map[elem]
+        return steps
+
+    def part2(self):
+        low_com_mul = 1
+        for el in self.start_elems:
+            low_com_mul = lcm(low_com_mul, self.part2_get_steps(start_elem=el))
+        return low_com_mul
+
 
 def main():
     ms = MapSolver()
-    ms.main()
+    print(ms.part1())
+    print(ms.part2())
 
 
 if __name__ == "__main__":
